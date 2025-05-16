@@ -12,3 +12,7 @@ Route::middleware(['web', 'auth'])->group(function() {
         return view('kalkyle::index');
     });
 });
+
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/kalkyle', [\Modules\Kalkyle\Http\Controllers\KalkyleController::class, 'index'])->name('kalkyle');
+});
