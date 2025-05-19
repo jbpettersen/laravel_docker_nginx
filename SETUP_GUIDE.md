@@ -22,13 +22,15 @@ Check:
 
 ---
 
-## 🔐 Step 2: Install Authentication (Laravel Breeze Livewire)
-(This script will first, update and upgrade apt, and then install node)
+## 🔐 Step 2: Install Node and Authentication (Laravel Breeze Livewire)
 
 ```bash
 docker-compose exec app apt update
 docker-compose exec app apt upgrade
 docker-compose exec app apt install node
+```
+
+```bash
 docker-compose exec app composer require laravel/breeze --dev
 docker-compose exec app php artisan breeze:install livewire
 docker-compose exec app npm install
@@ -48,10 +50,6 @@ docker-compose exec app composer require nwidart/laravel-modules
 docker-compose exec app php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"
 docker-compose exec app composer dump-autoload
 ```
-
-Check:  
-📂 Confirm `Modules/` directory is created.
-
 ---
 
 ## 🧩 Step 4: Create a New Module
@@ -59,17 +57,27 @@ Check:
 ```bash
 docker-compose exec app php artisan module:make Kalkyle
 ```
+---
+Check (if this is the first module):  
+📂 Confirm `Modules/` directory is created.
 
-If your provider is not found after creation:  
+Important! Add a merge-plugin to the extra section in composer.json:
+
+```json
+"extra": {
+    "laravel": {
+        "dont-discover": []
+    },
+    "merge-plugin": {
+        "include": [
+            "Modules/*/composer.json"
+        ]
+    }
+},
+```
 ```bash
 docker-compose exec app composer dump-autoload
 ```
-
-🧠 Remember: in Laravel Modules v12, modules use `/app` structure by default:
-- Check `Modules/Kalkyle/app/Providers/...`
-- Adjust `composer.json` or move provider if needed.
-
----
 
 ## 🛡️ Step 5: Protect Module with Auth
 
