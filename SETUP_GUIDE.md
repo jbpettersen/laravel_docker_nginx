@@ -23,8 +23,12 @@ Check:
 ---
 
 ## 🔐 Step 2: Install Authentication (Laravel Breeze Livewire)
+(This script will first, update and upgrade apt, and then install node)
 
 ```bash
+docker-compose exec app apt update
+docker-compose exec app apt upgrade
+docker-compose exec app apt install node
 docker-compose exec app composer require laravel/breeze --dev
 docker-compose exec app php artisan breeze:install livewire
 docker-compose exec app npm install
